@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Q4 - Modern Roman Numerals</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      min-height: 100vh;
+      color: #e0e0e0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .back-link {
+      align-self: flex-start;
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto 24px;
+      color: #a78bfa;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: #c4b5fd; }
+
+    .container { max-width: 800px; width: 100%; }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #a78bfa, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .description {
+      color: #94a3b8;
+      line-height: 1.7;
+      margin-bottom: 32px;
+      font-size: 1rem;
+    }
+
+    .symbol-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 32px;
+    }
+    .symbol-table th,
+    .symbol-table td {
+      padding: 10px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .symbol-table th {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .symbol-table td {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 1rem;
+    }
+    .symbol-table td:first-child { color: #a78bfa; font-weight: 600; }
+
+    h2 {
+      font-size: 1.2rem;
+      color: #cbd5e1;
+      margin-bottom: 16px;
+    }
+
+    .converter-section {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 32px;
+    }
+
+    .converter-section h3 {
+      font-size: 1rem;
+      color: #a78bfa;
+      margin-bottom: 16px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      flex: 1;
+      padding: 14px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: #f1f5f9;
+      font-size: 1.1rem;
+      font-family: 'Consolas', 'Courier New', monospace;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none; margin: 0;
+    }
+    input[type="number"] { -moz-appearance: textfield; }
+    input:focus { border-color: #a78bfa; }
+    input::placeholder { color: #64748b; }
+
+    button {
+      padding: 14px 28px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #a78bfa, #7c3aed);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    button:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+    button:active:not(:disabled) { transform: translateY(0); }
+    button:disabled {
+      background: rgba(255,255,255,0.08);
+      color: #64748b;
+      cursor: not-allowed;
+    }
+
+    .result {
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      font-family: 'Consolas', 'Courier New', monospace;
+      display: none;
+    }
+    .result.visible {
+      display: block;
+      background: rgba(96, 165, 250, 0.12);
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      color: #93c5fd;
+    }
+
+    .examples-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+    .examples-table th,
+    .examples-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .examples-table th {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .examples-table td {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.95rem;
+    }
+    .examples-table .arrow { color: #a78bfa; }
+
+    .code-section h2 { margin-bottom: 12px; }
+
+    pre {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 24px;
+      overflow-x: auto;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: #e2e8f0;
+    }
+
+    .kw { color: #c084fc; }
+    .fn { color: #60a5fa; }
+    .str { color: #34d399; }
+    .cm { color: #64748b; }
+    .type { color: #fbbf24; }
+  </style>
+</head>
+<body>
+  <a class="back-link" href="../index.html">&larr; Back to Questions</a>
+
+  <div class="container">
+    <h1>Q4: Modern Roman Numerals</h1>
+    <p class="description">
+      Modern Roman Numerals เป็นรูปแบบการนับเลขแบบหนึ่ง เริ่มต้นที่ 1 นับจากซ้ายไปขวา
+      ไม่นับเลข 0 และมีรูปแบบลบ เช่น CM = 900, IV = 4, IX = 9
+    </p>
+
+    <h2>Symbol Table</h2>
+    <table class="symbol-table">
+      <thead><tr><th>Symbol</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>I</td><td>1</td></tr>
+        <tr><td>V</td><td>5</td></tr>
+        <tr><td>X</td><td>10</td></tr>
+        <tr><td>L</td><td>50</td></tr>
+        <tr><td>C</td><td>100</td></tr>
+        <tr><td>D</td><td>500</td></tr>
+        <tr><td>M</td><td>1,000</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Int → Roman -->
+    <div class="converter-section">
+      <h3>Int → Roman</h3>
+      <div class="input-group">
+        <input type="number" id="intInput" placeholder="เช่น 1989" min="1" max="3999" />
+        <button id="intBtn" disabled>Convert</button>
+      </div>
+      <div class="result" id="intResult"></div>
+    </div>
+
+    <!-- Roman → Int -->
+    <div class="converter-section">
+      <h3>Roman → Int</h3>
+      <div class="input-group">
+        <input type="text" id="romanInput" placeholder="เช่น MCMLXXXIX" />
+        <button id="romanBtn" disabled>Convert</button>
+      </div>
+      <div class="result" id="romanResult"></div>
+    </div>
+
+    <h2>Example Results</h2>
+    <table class="examples-table">
+      <thead><tr><th>Int</th><th></th><th>Roman</th></tr></thead>
+      <tbody>
+        <tr><td>1989</td><td class="arrow">=></td><td>MCMLXXXIX</td></tr>
+        <tr><td>2000</td><td class="arrow">=></td><td>MM</td></tr>
+        <tr><td>68</td><td class="arrow">=></td><td>LXVIII</td></tr>
+        <tr><td>109</td><td class="arrow">=></td><td>CIX</td></tr>
+      </tbody>
+    </table>
+
+    <div class="code-section">
+      <h2>Source Code</h2>
+      <pre><code><span class="cm">/**
+ * แปลงเลขจำนวนเต็ม → เลขโรมัน (Modern Roman Numerals)
+ *
+ * วิธีคิด:
+ *   เตรียมตารางค่า เรียงจากมากไปน้อย (รวมรูปแบบลบ เช่น CM=900, IV=4)
+ *   วนลูปตาราง — ถ้าตัวเลขยังมากกว่าหรือเท่ากับค่านั้น ก็ต่อ symbol แล้วลบค่าออก
+ *
+ * ตัวอย่าง:
+ *   1989 → "MCMLXXXIX"
+ *   68   → "LXVIII"
+ */</span>
+<span class="kw">export function</span> <span class="fn">process_pre_interview_Q4_intToRoman</span>(num: <span class="type">number</span>): <span class="type">string</span> {
+  <span class="cm">// ตารางค่า: เรียงจากมากไปน้อย รวมรูปแบบลบ (CM, CD, XC, XL, IX, IV)</span>
+  <span class="kw">const</span> table: [<span class="type">number</span>, <span class="type">string</span>][] = [
+    [1000, <span class="str">"M"</span>],  [900, <span class="str">"CM"</span>], [500, <span class="str">"D"</span>],  [400, <span class="str">"CD"</span>],
+    [100, <span class="str">"C"</span>],   [90, <span class="str">"XC"</span>],  [50, <span class="str">"L"</span>],   [40, <span class="str">"XL"</span>],
+    [10, <span class="str">"X"</span>],    [9, <span class="str">"IX"</span>],   [5, <span class="str">"V"</span>],    [4, <span class="str">"IV"</span>],
+    [1, <span class="str">"I"</span>],
+  ];
+
+  <span class="kw">let</span> result = <span class="str">""</span>;
+
+  <span class="kw">for</span> (<span class="kw">const</span> [value, symbol] <span class="kw">of</span> table) {
+    <span class="cm">// ซ้ำจนกว่า num จะน้อยกว่า value</span>
+    <span class="kw">while</span> (num >= value) {
+      result += symbol;
+      num -= value;
+    }
+  }
+
+  <span class="kw">return</span> result;
+}
+
+<span class="cm">/**
+ * แปลงเลขโรมัน → เลขจำนวนเต็ม
+ *
+ * วิธีคิด:
+ *   วนอ่านทีละตัวอักษร
+ *   - ถ้าตัวปัจจุบัน &lt; ตัวถัดไป → เป็นรูปแบบลบ (เช่น IV=4) → ลบค่าออก
+ *   - ถ้าไม่ใช่ → บวกค่าเข้า
+ *
+ * ตัวอย่าง:
+ *   "MCMLXXXIX" → 1989
+ *   "LXVIII"    → 68
+ */</span>
+<span class="kw">export function</span> <span class="fn">process_pre_interview_Q4_romanToInt</span>(roman: <span class="type">string</span>): <span class="type">number</span> {
+  <span class="cm">// ค่าของแต่ละ symbol</span>
+  <span class="kw">const</span> symbolValue: <span class="type">Record</span>&lt;<span class="type">string</span>, <span class="type">number</span>&gt; = {
+    I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000,
+  };
+
+  <span class="kw">let</span> result = 0;
+
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; roman.length; i++) {
+    <span class="kw">const</span> char = roman[i];
+    <span class="kw">const</span> nextChar = roman[i + 1];
+
+    <span class="cm">// ดึงค่าจาก symbolValue (ถ้าตัวอักษรไม่อยู่ในตาราง → ข้าม)</span>
+    <span class="kw">const</span> current = char !== <span class="kw">undefined</span> ? symbolValue[char] : <span class="kw">undefined</span>;
+    <span class="kw">const</span> next = nextChar !== <span class="kw">undefined</span> ? symbolValue[nextChar] : <span class="kw">undefined</span>;
+    <span class="kw">if</span> (current === <span class="kw">undefined</span>) <span class="kw">continue</span>;
+
+    <span class="kw">if</span> (next !== <span class="kw">undefined</span> && current &lt; next) {
+      <span class="cm">// ตัวปัจจุบันน้อยกว่าตัวถัดไป → รูปแบบลบ เช่น I ก่อน V = 4</span>
+      result -= current;
+    } <span class="kw">else</span> {
+      <span class="cm">// ปกติ → บวกค่าเข้า</span>
+      result += current;
+    }
+  }
+
+  <span class="kw">return</span> result;
+}</code></pre>
+    </div>
+
+    <div class="code-section" style="margin-top: 40px;">
+      <h2>Test Code</h2>
+      <pre><code><span class="kw">import</span> { describe, it, expect } <span class="kw">from</span> <span class="str">"vitest"</span>;
+<span class="kw">import</span> {
+  process_pre_interview_Q4_intToRoman,
+  process_pre_interview_Q4_romanToInt,
+} <span class="kw">from</span> <span class="str">"./question4.js"</span>;
+
+<span class="cm">// =============================================</span>
+<span class="cm">// ฟังก์ชันที่ 1: Int → Roman</span>
+<span class="cm">// =============================================</span>
+<span class="fn">describe</span>(<span class="str">"process_pre_interview_Q4_intToRoman"</span>, () => {
+  <span class="fn">it</span>(<span class="str">"1989 => MCMLXXXIX — ตัวอย่างจากโจทย์"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(1989)).<span class="fn">toBe</span>(<span class="str">"MCMLXXXIX"</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">"2000 => MM — ตัวอย่างจากโจทย์"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(2000)).<span class="fn">toBe</span>(<span class="str">"MM"</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">"68 => LXVIII — ตัวอย่างจากโจทย์"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(68)).<span class="fn">toBe</span>(<span class="str">"LXVIII"</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">"109 => CIX — ตัวอย่างจากโจทย์"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(109)).<span class="fn">toBe</span>(<span class="str">"CIX"</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">"1 => I — ค่าน้อยที่สุด"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(1)).<span class="fn">toBe</span>(<span class="str">"I"</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">"4 => IV — รูปแบบลบ (subtractive)"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(4)).<span class="fn">toBe</span>(<span class="str">"IV"</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">"9 => IX — รูปแบบลบ (subtractive)"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(9)).<span class="fn">toBe</span>(<span class="str">"IX"</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">"40 => XL — รูปแบบลบ (subtractive)"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(40)).<span class="fn">toBe</span>(<span class="str">"XL"</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">"90 => XC — รูปแบบลบ (subtractive)"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(90)).<span class="fn">toBe</span>(<span class="str">"XC"</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">"400 => CD — รูปแบบลบ (subtractive)"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(400)).<span class="fn">toBe</span>(<span class="str">"CD"</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">"900 => CM — รูปแบบลบ (subtractive)"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(900)).<span class="fn">toBe</span>(<span class="str">"CM"</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">"3999 => MMMCMXCIX — ค่ามากที่สุดที่ใช้ได้"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(3999)).<span class="fn">toBe</span>(<span class="str">"MMMCMXCIX"</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">"58 => LVIII"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(58)).<span class="fn">toBe</span>(<span class="str">"LVIII"</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">"1994 => MCMXCIV"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_intToRoman</span>(1994)).<span class="fn">toBe</span>(<span class="str">"MCMXCIV"</span>);
+  });
+});
+
+<span class="cm">// =============================================</span>
+<span class="cm">// ฟังก์ชันที่ 2: Roman → Int</span>
+<span class="cm">// =============================================</span>
+<span class="fn">describe</span>(<span class="str">"process_pre_interview_Q4_romanToInt"</span>, () => {
+  <span class="fn">it</span>(<span class="str">"MCMLXXXIX => 1989 — ตัวอย่างจากโจทย์"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"MCMLXXXIX"</span>)).<span class="fn">toBe</span>(1989);
+  });
+
+  <span class="fn">it</span>(<span class="str">"MM => 2000 — ตัวอย่างจากโจทย์"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"MM"</span>)).<span class="fn">toBe</span>(2000);
+  });
+
+  <span class="fn">it</span>(<span class="str">"LXVIII => 68 — ตัวอย่างจากโจทย์"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"LXVIII"</span>)).<span class="fn">toBe</span>(68);
+  });
+
+  <span class="fn">it</span>(<span class="str">"CIX => 109 — ตัวอย่างจากโจทย์"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"CIX"</span>)).<span class="fn">toBe</span>(109);
+  });
+
+  <span class="fn">it</span>(<span class="str">"I => 1 — ค่าน้อยที่สุด"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"I"</span>)).<span class="fn">toBe</span>(1);
+  });
+
+  <span class="fn">it</span>(<span class="str">"IV => 4 — รูปแบบลบ (subtractive)"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"IV"</span>)).<span class="fn">toBe</span>(4);
+  });
+
+  <span class="fn">it</span>(<span class="str">"IX => 9 — รูปแบบลบ (subtractive)"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"IX"</span>)).<span class="fn">toBe</span>(9);
+  });
+
+  <span class="fn">it</span>(<span class="str">"XL => 40 — รูปแบบลบ (subtractive)"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"XL"</span>)).<span class="fn">toBe</span>(40);
+  });
+
+  <span class="fn">it</span>(<span class="str">"XC => 90 — รูปแบบลบ (subtractive)"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"XC"</span>)).<span class="fn">toBe</span>(90);
+  });
+
+  <span class="fn">it</span>(<span class="str">"CD => 400 — รูปแบบลบ (subtractive)"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"CD"</span>)).<span class="fn">toBe</span>(400);
+  });
+
+  <span class="fn">it</span>(<span class="str">"CM => 900 — รูปแบบลบ (subtractive)"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"CM"</span>)).<span class="fn">toBe</span>(900);
+  });
+
+  <span class="fn">it</span>(<span class="str">"MMMCMXCIX => 3999 — ค่ามากที่สุดที่ใช้ได้"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"MMMCMXCIX"</span>)).<span class="fn">toBe</span>(3999);
+  });
+
+  <span class="fn">it</span>(<span class="str">"LVIII => 58"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"LVIII"</span>)).<span class="fn">toBe</span>(58);
+  });
+
+  <span class="fn">it</span>(<span class="str">"MCMXCIV => 1994"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q4_romanToInt</span>(<span class="str">"MCMXCIV"</span>)).<span class="fn">toBe</span>(1994);
+  });
+});</code></pre>
+    </div>
+  </div>
+
+  <script>
+    // =============================================
+    // ฟังก์ชัน Int → Roman (เหมือนกับ question4.ts)
+    // =============================================
+    function process_pre_interview_Q4_intToRoman(num) {
+      // ตารางค่า: เรียงจากมากไปน้อย รวมรูปแบบลบ (CM, CD, XC, XL, IX, IV)
+      const table = [
+        [1000, "M"],  [900, "CM"], [500, "D"],  [400, "CD"],
+        [100, "C"],   [90, "XC"],  [50, "L"],   [40, "XL"],
+        [10, "X"],    [9, "IX"],   [5, "V"],    [4, "IV"],
+        [1, "I"],
+      ];
+
+      let result = "";
+
+      for (const [value, symbol] of table) {
+        // ซ้ำจนกว่า num จะน้อยกว่า value
+        while (num >= value) {
+          result += symbol;
+          num -= value;
+        }
+      }
+
+      return result;
+    }
+
+    // =============================================
+    // ฟังก์ชัน Roman → Int (เหมือนกับ question4.ts)
+    // =============================================
+    function process_pre_interview_Q4_romanToInt(roman) {
+      // ค่าของแต่ละ symbol
+      const symbolValue = {
+        I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000,
+      };
+
+      let result = 0;
+
+      for (let i = 0; i < roman.length; i++) {
+        const current = symbolValue[roman[i]];
+        const next = symbolValue[roman[i + 1]];
+
+        if (next !== undefined && current < next) {
+          // ตัวปัจจุบันน้อยกว่าตัวถัดไป → รูปแบบลบ เช่น I ก่อน V = 4
+          result -= current;
+        } else {
+          // ปกติ → บวกค่าเข้า
+          result += current;
+        }
+      }
+
+      return result;
+    }
+
+    // =============================================
+    // DOM Elements
+    // =============================================
+    const intInput = document.getElementById("intInput");
+    const intBtn = document.getElementById("intBtn");
+    const intResult = document.getElementById("intResult");
+    const romanInput = document.getElementById("romanInput");
+    const romanBtn = document.getElementById("romanBtn");
+    const romanResult = document.getElementById("romanResult");
+
+    // =============================================
+    // Validate
+    // =============================================
+    function validateInt() {
+      const val = parseInt(intInput.value);
+      intBtn.disabled = isNaN(val) || val < 1 || val > 3999;
+    }
+
+    const VALID_ROMAN = /^[IVXLCDM]+$/i;
+    function validateRoman() {
+      romanBtn.disabled = !VALID_ROMAN.test(romanInput.value.trim());
+    }
+
+    // =============================================
+    // Convert
+    // =============================================
+    function convertIntToRoman() {
+      const num = parseInt(intInput.value);
+      if (isNaN(num)) return;
+      const roman = process_pre_interview_Q4_intToRoman(num);
+      intResult.className = "result visible";
+      intResult.textContent = `${num}  =>  ${roman}`;
+    }
+
+    function convertRomanToInt() {
+      const roman = romanInput.value.trim().toUpperCase();
+      if (!roman) return;
+      const num = process_pre_interview_Q4_romanToInt(roman);
+      romanResult.className = "result visible";
+      romanResult.textContent = `${roman}  =>  ${num}`;
+    }
+
+    // =============================================
+    // Event Listeners
+    // =============================================
+    intInput.addEventListener("input", validateInt);
+    intBtn.addEventListener("click", convertIntToRoman);
+    intInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !intBtn.disabled) convertIntToRoman();
+    });
+
+    romanInput.addEventListener("input", validateRoman);
+    romanBtn.addEventListener("click", convertRomanToInt);
+    romanInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !romanBtn.disabled) convertRomanToInt();
+    });
+  </script>
+</body>
+</html>

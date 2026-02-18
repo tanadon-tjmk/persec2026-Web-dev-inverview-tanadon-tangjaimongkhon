@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Q1 - Balanced Brackets</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        min-height: 100vh;
+        color: #e0e0e0;
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .back-link {
+        align-self: flex-start;
+        max-width: 800px;
+        width: 100%;
+        margin: 0 auto 24px;
+        color: #a78bfa;
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: color 0.2s;
+      }
+      .back-link:hover {
+        color: #c4b5fd;
+      }
+
+      .container {
+        max-width: 800px;
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 8px;
+        background: linear-gradient(90deg, #a78bfa, #60a5fa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .description {
+        color: #94a3b8;
+        line-height: 1.7;
+        margin-bottom: 32px;
+        font-size: 1rem;
+      }
+
+      .input-group {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      input[type="text"] {
+        flex: 1;
+        padding: 14px 20px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.06);
+        color: #f1f5f9;
+        font-size: 1.1rem;
+        font-family: "Consolas", "Courier New", monospace;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      input[type="text"]:focus {
+        border-color: #a78bfa;
+      }
+      input[type="text"]::placeholder {
+        color: #64748b;
+      }
+
+      button {
+        padding: 14px 28px;
+        border-radius: 12px;
+        border: none;
+        background: linear-gradient(135deg, #a78bfa, #7c3aed);
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          opacity 0.2s,
+          transform 0.15s;
+        white-space: nowrap;
+      }
+      button:hover:not(:disabled) {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+      button:active:not(:disabled) {
+        transform: translateY(0);
+      }
+      button:disabled {
+        background: rgba(255, 255, 255, 0.08);
+        color: #64748b;
+        cursor: not-allowed;
+      }
+
+      .result {
+        padding: 20px 24px;
+        border-radius: 12px;
+        font-size: 1.15rem;
+        font-weight: 600;
+        margin-bottom: 40px;
+        display: none;
+        transition: all 0.3s;
+      }
+      .result.true {
+        display: block;
+        background: rgba(34, 197, 94, 0.12);
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        color: #4ade80;
+      }
+      .result.false {
+        display: block;
+        background: rgba(239, 68, 68, 0.12);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #f87171;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+        color: #cbd5e1;
+        margin-bottom: 16px;
+      }
+
+      .examples-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 40px;
+      }
+      .examples-table th,
+      .examples-table td {
+        padding: 12px 16px;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .examples-table th {
+        color: #94a3b8;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .examples-table td {
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 1rem;
+      }
+      .examples-table .true-val {
+        color: #4ade80;
+      }
+      .examples-table .false-val {
+        color: #f87171;
+      }
+
+      .code-section h2 {
+        margin-bottom: 12px;
+      }
+
+      pre {
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 24px;
+        overflow-x: auto;
+        font-size: 0.92rem;
+        line-height: 1.7;
+        color: #e2e8f0;
+      }
+
+      .kw {
+        color: #c084fc;
+      }
+      .fn {
+        color: #60a5fa;
+      }
+      .str {
+        color: #34d399;
+      }
+      .cm {
+        color: #64748b;
+      }
+      .type {
+        color: #fbbf24;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="back-link" href="../index.html">&larr; Back to Questions</a>
+
+    <div class="container">
+      <h1>Q1: Balanced Brackets</h1>
+      <p class="description">
+        สร้าง function ที่รับ string แล้วตรวจสอบว่ามีการเปิด-ปิดวงเล็บ
+        <code>( ) [ ] { }</code> ครบคู่และถูกลำดับหรือไม่
+      </p>
+
+      <div class="input-group">
+        <input
+          type="text"
+          id="bracketInput"
+          placeholder="ลองพิมพ์ เช่น ([{}])"
+        />
+        <button id="checkBtn" disabled>Check</button>
+      </div>
+      <div class="result" id="result"></div>
+
+      <h2>Example Results</h2>
+      <table class="examples-table">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>"()"</td>
+            <td class="true-val">true</td>
+          </tr>
+          <tr>
+            <td>"([]]"</td>
+            <td class="false-val">false</td>
+          </tr>
+          <tr>
+            <td>"([0])"</td>
+            <td class="true-val">true</td>
+          </tr>
+          <tr>
+            <td>"([[0]]]"</td>
+            <td class="false-val">false</td>
+          </tr>
+          <tr>
+            <td>")"</td>
+            <td class="false-val">false</td>
+          </tr>
+          <tr>
+            <td>"(])])"</td>
+            <td class="false-val">false</td>
+          </tr>
+          <tr>
+            <td>"([)]"</td>
+            <td class="false-val">false</td>
+          </tr>
+          <tr>
+            <td>"("</td>
+            <td class="false-val">false</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="code-section">
+        <h2>Source Code</h2>
+        <pre><code><span class="cm">/**
+ * ตรวจสอบว่า string ที่รับมามีการเปิด-ปิดวงเล็บ ( ) [ ] { } ครบคู่และถูกลำดับหรือไม่
+ *
+ * ใช้ Stack เป็นหลัก:
+ * - เจอวงเล็บเปิด → push เข้า stack
+ * - เจอวงเล็บปิด → pop จาก stack แล้วเทียบว่าตรงคู่กันหรือไม่
+ * - จบลูปแล้ว stack ว่าง → ครบคู่ (true)
+ */</span>
+<span class="kw">export function</span> <span class="fn">process_pre_interview_Q1</span>(text: <span class="type">string</span>): <span class="type">boolean</span> {
+  <span class="cm">// stack เก็บวงเล็บเปิดที่ยังไม่ถูกปิด</span>
+  <span class="kw">const</span> stack: <span class="type">string</span>[] = [];
+
+  <span class="cm">// ชุดวงเล็บเปิดทั้งหมด</span>
+  <span class="kw">const</span> OPENERS = <span class="kw">new</span> <span class="fn">Set</span>([<span class="str">"("</span>, <span class="str">"["</span>, <span class="str">"{"</span>]);
+
+  <span class="cm">// map วงเล็บปิด → วงเล็บเปิดที่ต้องตรงคู่กัน</span>
+  <span class="kw">const</span> MATCHING_OPENER: <span class="type">Record</span>&lt;<span class="type">string</span>, <span class="type">string</span>&gt; = {
+    <span class="str">")"</span>: <span class="str">"("</span>,
+    <span class="str">"]"</span>: <span class="str">"["</span>,
+    <span class="str">"}"</span>: <span class="str">"{"</span>,
+  };
+
+  <span class="kw">for</span> (<span class="kw">const</span> char <span class="kw">of</span> text) {
+    <span class="cm">// ถ้าเป็นวงเล็บเปิด → push เข้า stack แล้วข้ามไปตัวถัดไป</span>
+    <span class="kw">if</span> (OPENERS.<span class="fn">has</span>(char)) {
+      stack.<span class="fn">push</span>(char);
+      <span class="kw">continue</span>;
+    }
+
+    <span class="cm">// ถ้าไม่ใช่วงเล็บปิด → ข้ามไป (เป็นตัวอักษรทั่วไป)</span>
+    <span class="kw">const</span> expectedOpener = MATCHING_OPENER[char];
+    <span class="kw">if</span> (expectedOpener === <span class="kw">undefined</span>) <span class="kw">continue</span>;
+
+    <span class="cm">// เป็นวงเล็บปิด → pop วงเล็บเปิดล่าสุดจาก stack มาเทียบ</span>
+    <span class="kw">const</span> actualOpener = stack.<span class="fn">pop</span>();
+    <span class="kw">if</span> (actualOpener !== expectedOpener) <span class="kw">return false</span>;
+  }
+
+  <span class="cm">// ถ้า stack ว่าง = วงเล็บเปิดทุกตัวถูกปิดครบ</span>
+  <span class="kw">return</span> stack.length === 0;
+}</code></pre>
+      </div>
+
+      <div class="code-section" style="margin-top: 40px;">
+        <h2>Test Code</h2>
+        <pre><code><span class="kw">import</span> { describe, it, expect } <span class="kw">from</span> <span class="str">"vitest"</span>;
+<span class="kw">import</span> { process_pre_interview_Q1 } <span class="kw">from</span> <span class="str">"./question1.js"</span>;
+
+<span class="fn">describe</span>(<span class="str">"process_pre_interview_Q1"</span>, () => {
+  <span class="fn">it</span>(<span class="str">'"()" => true — วงเล็บเปิดปิดครบคู่'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">"()"</span>)).<span class="fn">toBe</span>(<span class="kw">true</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">'"([]]" => false — วงเล็บปิดเกินมา 1 ตัว'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">"([]]"</span>)).<span class="fn">toBe</span>(<span class="kw">false</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">'"([0])" => true — มีตัวอักษรอยู่ข้างในแต่วงเล็บครบคู่'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">"([0])"</span>)).<span class="fn">toBe</span>(<span class="kw">true</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">'"([[0]]]" => false — วงเล็บปิดเกินมา 1 ตัว'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">"([[0]]]"</span>)).<span class="fn">toBe</span>(<span class="kw">false</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">'")" => false — มีแค่วงเล็บปิดตัวเดียว ไม่มีตัวเปิด'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">")"</span>)).<span class="fn">toBe</span>(<span class="kw">false</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">'"(])])" => false — วงเล็บเปิดปิดไม่ตรงคู่กัน'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">"(])])"</span>)).<span class="fn">toBe</span>(<span class="kw">false</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">'"([)]" => false — วงเล็บสลับลำดับกัน (interleaved)'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">"([)]"</span>)).<span class="fn">toBe</span>(<span class="kw">false</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">'"(" => false — เปิดวงเล็บแล้วไม่ปิด'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">"("</span>)).<span class="fn">toBe</span>(<span class="kw">false</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">'"" => true — string ว่าง ไม่มีวงเล็บเลย ถือว่าครบ'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">""</span>)).<span class="fn">toBe</span>(<span class="kw">true</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">'"{[]()}" => true — วงเล็บหลายแบบผสมกันแต่ครบคู่'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">"{[]()}"</span>)).<span class="fn">toBe</span>(<span class="kw">true</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">'"hello" => true — ไม่มีวงเล็บเลย ถือว่าครบ'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">"hello"</span>)).<span class="fn">toBe</span>(<span class="kw">true</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">'"(a + b) * [c - d]" => true — นิพจน์คณิตศาสตร์ วงเล็บครบคู่'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">"(a + b) * [c - d]"</span>)).<span class="fn">toBe</span>(<span class="kw">true</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">'"(((" => false — เปิดวงเล็บหลายตัวแต่ไม่ปิดเลย'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">"((("</span>)).<span class="fn">toBe</span>(<span class="kw">false</span>);
+  });
+
+  <span class="fn">it</span>(<span class="str">'")))" => false — มีแต่วงเล็บปิด ไม่มีตัวเปิด'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q1</span>(<span class="str">")))\"</span>)).<span class="fn">toBe</span>(<span class="kw">false</span>);
+  });
+});</code></pre>
+      </div>
+    </div>
+
+    <script>
+      // =============================================
+      // ฟังก์ชันตรวจสอบวงเล็บ (เหมือนกับ question1.ts)
+      // =============================================
+      function process_pre_interview_Q1(text) {
+        // stack เก็บวงเล็บเปิดที่ยังไม่ถูกปิด
+        const stack = [];
+
+        // ชุดวงเล็บเปิดทั้งหมด
+        const OPENERS = new Set(["(", "[", "{"]);
+
+        // map วงเล็บปิด → วงเล็บเปิดที่ต้องตรงคู่กัน
+        const MATCHING_OPENER = { ")": "(", "]": "[", "}": "{" };
+
+        for (const char of text) {
+          // ถ้าเป็นวงเล็บเปิด → push เข้า stack แล้วข้ามไปตัวถัดไป
+          if (OPENERS.has(char)) {
+            stack.push(char);
+            continue;
+          }
+
+          // ถ้าไม่ใช่วงเล็บปิด → ข้ามไป (เป็นตัวอักษรทั่วไป)
+          const expectedOpener = MATCHING_OPENER[char];
+          if (expectedOpener === undefined) continue;
+
+          // เป็นวงเล็บปิด → pop วงเล็บเปิดล่าสุดจาก stack มาเทียบ
+          // ถ้าไม่ตรงคู่ หรือ stack ว่าง (pop ได้ undefined) → return false
+          const actualOpener = stack.pop();
+          if (actualOpener !== expectedOpener) return false;
+        }
+
+        // ถ้า stack ว่าง = วงเล็บเปิดทุกตัวถูกปิดครบ
+        return stack.length === 0;
+      }
+
+      // =============================================
+      // DOM Elements
+      // =============================================
+      const inputEl = document.getElementById("bracketInput");  // ช่องกรอก input
+      const checkBtn = document.getElementById("checkBtn");     // ปุ่ม Check
+      const resultEl = document.getElementById("result");       // กล่องแสดงผลลัพธ์
+
+      // regex ตรวจว่ามีวงเล็บ ( ) [ ] { } อย่างน้อย 1 ตัว
+      const BRACKETS = /[(\)\[\]\{\}]/;
+
+      // =============================================
+      // validate: เรียกทุกครั้งที่ผู้ใช้พิมพ์
+      // - มีวงเล็บอย่างน้อย 1 ตัว → ปุ่ม Check enabled
+      // - ไม่มีวงเล็บเลย → ปุ่ม Check disabled
+      // =============================================
+      function validate() {
+        checkBtn.disabled = !BRACKETS.test(inputEl.value);
+      }
+
+      // =============================================
+      // check: เรียกเมื่อกดปุ่ม Check หรือ Enter
+      // - นำค่า input ไปเข้าฟังก์ชัน process_pre_interview_Q1
+      // - แสดงผลลัพธ์ true (สีเขียว) หรือ false (สีแดง)
+      // =============================================
+      function check() {
+        const text = inputEl.value;
+        if (text.length === 0) return;
+
+        const balanced = process_pre_interview_Q1(text);
+        resultEl.className = "result " + balanced;      // เปลี่ยน class เป็น "result true" หรือ "result false"
+        resultEl.textContent = `"${text}"  =>  ${balanced}`;
+      }
+
+      // =============================================
+      // Event Listeners
+      // =============================================
+      inputEl.addEventListener("input", validate);       // พิมพ์ → validate ทุกครั้ง
+      checkBtn.addEventListener("click", check);         // คลิกปุ่ม → check
+      inputEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !checkBtn.disabled) check();  // กด Enter → check (ถ้าปุ่มไม่ disabled)
+      });
+    </script>
+  </body>
+</html>

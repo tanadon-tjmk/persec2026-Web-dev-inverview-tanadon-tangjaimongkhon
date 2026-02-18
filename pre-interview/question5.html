@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Q5 - Sort Digits Descending</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      min-height: 100vh;
+      color: #e0e0e0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .back-link {
+      align-self: flex-start;
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto 24px;
+      color: #a78bfa;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: #c4b5fd; }
+
+    .container { max-width: 800px; width: 100%; }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #a78bfa, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .description {
+      color: #94a3b8;
+      line-height: 1.7;
+      margin-bottom: 32px;
+      font-size: 1rem;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    input[type="number"] {
+      flex: 1;
+      padding: 14px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: #f1f5f9;
+      font-size: 1.1rem;
+      font-family: 'Consolas', 'Courier New', monospace;
+      outline: none;
+      transition: border-color 0.2s;
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"]:focus { border-color: #a78bfa; }
+    input[type="number"]::placeholder { color: #64748b; }
+
+    button {
+      padding: 14px 28px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #a78bfa, #7c3aed);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    button:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+    button:active:not(:disabled) { transform: translateY(0); }
+    button:disabled {
+      background: rgba(255,255,255,0.08);
+      color: #64748b;
+      cursor: not-allowed;
+    }
+
+    .result {
+      padding: 20px 24px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 40px;
+      display: none;
+      font-family: 'Consolas', 'Courier New', monospace;
+      word-break: break-all;
+    }
+    .result.visible {
+      display: block;
+      background: rgba(96, 165, 250, 0.12);
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      color: #93c5fd;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      color: #cbd5e1;
+      margin-bottom: 16px;
+    }
+
+    .examples-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+    .examples-table th,
+    .examples-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .examples-table th {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .examples-table td {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.95rem;
+    }
+    .examples-table .arrow { color: #a78bfa; }
+
+    .code-section h2 { margin-bottom: 12px; }
+
+    pre {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 24px;
+      overflow-x: auto;
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: #e2e8f0;
+    }
+
+    .kw { color: #c084fc; }
+    .fn { color: #60a5fa; }
+    .str { color: #34d399; }
+    .cm { color: #64748b; }
+    .type { color: #fbbf24; }
+  </style>
+</head>
+<body>
+  <a class="back-link" href="../index.html">&larr; Back to Questions</a>
+
+  <div class="container">
+    <h1>Q5: Sort Digits Descending</h1>
+    <p class="description">
+      สร้าง function ที่รับค่า Positive Int แล้วเรียงตัวเลขแต่ละหลักจากมากไปน้อย
+      แล้ว return กลับออกมาเป็น Int
+    </p>
+
+    <div class="input-group">
+      <input type="number" id="numInput" placeholder="เช่น 3008" min="1" />
+      <button id="sortBtn" disabled>Sort</button>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <h2>Example Results</h2>
+    <table class="examples-table">
+      <thead>
+        <tr><th>Input</th><th></th><th>Output</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>3008</td><td class="arrow">=></td><td>8300</td></tr>
+        <tr><td>1989</td><td class="arrow">=></td><td>9981</td></tr>
+        <tr><td>2679</td><td class="arrow">=></td><td>9762</td></tr>
+        <tr><td>9163</td><td class="arrow">=></td><td>9631</td></tr>
+      </tbody>
+    </table>
+
+    <div class="code-section">
+      <h2>Source Code</h2>
+      <pre><code><span class="cm">/**
+ * รับค่า Positive Int แล้วเรียงตัวเลขแต่ละหลักจากมากไปน้อย แล้ว return เป็น Int
+ *
+ * ตัวอย่าง:
+ *   3008 → 8300
+ *   1989 → 9981
+ *   2679 → 9762
+ *   9163 → 9631
+ */</span>
+<span class="kw">export function</span> <span class="fn">process_pre_interview_Q5</span>(num: <span class="type">number</span>): <span class="type">number</span> {
+  <span class="cm">// ขั้นตอนที่ 1: แปลงตัวเลข → string เพื่อแยกแต่ละหลัก</span>
+  <span class="kw">const</span> digits = <span class="fn">String</span>(num).<span class="fn">split</span>(<span class="str">""</span>);
+
+  <span class="cm">// ขั้นตอนที่ 2: เรียงตัวเลขจากมากไปน้อย (descending)</span>
+  digits.<span class="fn">sort</span>((a, b) => <span class="fn">Number</span>(b) - <span class="fn">Number</span>(a));
+
+  <span class="cm">// ขั้นตอนที่ 3: รวมกลับเป็นตัวเลข</span>
+  <span class="kw">return</span> <span class="fn">Number</span>(digits.<span class="fn">join</span>(<span class="str">""</span>));
+}</code></pre>
+    </div>
+
+    <div class="code-section" style="margin-top: 40px;">
+      <h2>Test Code</h2>
+      <pre><code><span class="kw">import</span> { describe, it, expect } <span class="kw">from</span> <span class="str">"vitest"</span>;
+<span class="kw">import</span> { process_pre_interview_Q5 } <span class="kw">from</span> <span class="str">"./question5.js"</span>;
+
+<span class="fn">describe</span>(<span class="str">"process_pre_interview_Q5"</span>, () => {
+  <span class="fn">it</span>(<span class="str">"3008 => 8300 — ตัวอย่างจากโจทย์ข้อ 1"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q5</span>(3008)).<span class="fn">toBe</span>(8300);
+  });
+
+  <span class="fn">it</span>(<span class="str">"1989 => 9981 — ตัวอย่างจากโจทย์ข้อ 2"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q5</span>(1989)).<span class="fn">toBe</span>(9981);
+  });
+
+  <span class="fn">it</span>(<span class="str">"2679 => 9762 — ตัวอย่างจากโจทย์ข้อ 3"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q5</span>(2679)).<span class="fn">toBe</span>(9762);
+  });
+
+  <span class="fn">it</span>(<span class="str">"9163 => 9631 — ตัวอย่างจากโจทย์ข้อ 4"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q5</span>(9163)).<span class="fn">toBe</span>(9631);
+  });
+
+  <span class="fn">it</span>(<span class="str">"เลขหลักเดียว — คืนค่าเดิม"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q5</span>(7)).<span class="fn">toBe</span>(7);
+  });
+
+  <span class="fn">it</span>(<span class="str">"เลขที่เรียงจากมากไปน้อยอยู่แล้ว — คืนค่าเดิม"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q5</span>(9876)).<span class="fn">toBe</span>(9876);
+  });
+
+  <span class="fn">it</span>(<span class="str">"เลขที่เรียงจากน้อยไปมาก — กลับลำดับทั้งหมด"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q5</span>(1234)).<span class="fn">toBe</span>(4321);
+  });
+
+  <span class="fn">it</span>(<span class="str">"เลขซ้ำทั้งหมด — คืนค่าเดิม"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q5</span>(5555)).<span class="fn">toBe</span>(5555);
+  });
+
+  <span class="fn">it</span>(<span class="str">"เลขที่มี 0 หลายตัว — 0 ไปอยู่ท้ายสุด"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q5</span>(1000)).<span class="fn">toBe</span>(1000);
+  });
+
+  <span class="fn">it</span>(<span class="str">"10 => 10 — เลข 2 หลักที่มี 0"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q5</span>(10)).<span class="fn">toBe</span>(10);
+  });
+
+  <span class="fn">it</span>(<span class="str">"เลข 6 หลัก — 120035 => 532100"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q5</span>(120035)).<span class="fn">toBe</span>(532100);
+  });
+});</code></pre>
+    </div>
+  </div>
+
+  <script>
+    // =============================================
+    // ฟังก์ชันเรียงตัวเลข (เหมือนกับ question5.ts)
+    // =============================================
+    function process_pre_interview_Q5(num) {
+      // ขั้นตอนที่ 1: แปลงตัวเลข → string เพื่อแยกแต่ละหลัก
+      const digits = String(num).split("");
+
+      // ขั้นตอนที่ 2: เรียงตัวเลขจากมากไปน้อย (descending)
+      digits.sort((a, b) => Number(b) - Number(a));
+
+      // ขั้นตอนที่ 3: รวมกลับเป็นตัวเลข
+      return Number(digits.join(""));
+    }
+
+    // =============================================
+    // DOM Elements
+    // =============================================
+    const numInput = document.getElementById("numInput");
+    const sortBtn = document.getElementById("sortBtn");
+    const resultEl = document.getElementById("result");
+
+    // =============================================
+    // validate: ต้องกรอกตัวเลข > 0 ถึงจะกด Sort ได้
+    // =============================================
+    function validate() {
+      const val = parseInt(numInput.value);
+      sortBtn.disabled = isNaN(val) || val <= 0;
+    }
+
+    // =============================================
+    // doSort: แปลงและแสดงผลลัพธ์
+    // =============================================
+    function doSort() {
+      const num = parseInt(numInput.value);
+      if (isNaN(num) || num <= 0) return;
+
+      const sorted = process_pre_interview_Q5(num);
+
+      resultEl.className = "result visible";
+      resultEl.textContent = `${num}  =>  ${sorted}`;
+    }
+
+    // =============================================
+    // Event Listeners
+    // =============================================
+    numInput.addEventListener("input", validate);
+    sortBtn.addEventListener("click", doSort);
+    numInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !sortBtn.disabled) doSort();
+    });
+  </script>
+</body>
+</html>

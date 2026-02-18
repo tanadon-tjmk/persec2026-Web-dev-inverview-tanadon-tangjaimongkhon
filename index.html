@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-Interview Questions</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      min-height: 100vh;
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #a78bfa, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #94a3b8;
+      margin-bottom: 48px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 32px 28px;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(167, 139, 250, 0.2);
+      border-color: rgba(167, 139, 250, 0.4);
+    }
+
+    .card-number {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #a78bfa;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+
+    .card-desc {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    .card-tag {
+      display: inline-block;
+      background: rgba(167, 139, 250, 0.15);
+      color: #a78bfa;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      width: fit-content;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pre-Interview Questions</h1>
+  <p class="subtitle">TypeScript Coding Challenges</p>
+
+  <div class="card-grid">
+    <a class="card" href="pre-interview/question1.html">
+      <span class="card-number">Question 01</span>
+      <span class="card-title">Balanced Brackets</span>
+      <span class="card-desc">
+        สร้าง function ตรวจสอบว่า string ที่รับมามีการเปิด-ปิดวงเล็บ
+        <code>( ) [ ] { }</code> ครบคู่หรือไม่
+      </span>
+      <span class="card-tag">Stack / String</span>
+    </a>
+
+    <a class="card" href="pre-interview/question2.html">
+      <span class="card-number">Question 02</span>
+      <span class="card-title">Natural Sort</span>
+      <span class="card-desc">
+        สร้าง function รับค่า array ของ string แล้ว return ผลลัพธ์ที่เรียงแล้ว
+        โดยเรียงตัวอักษรนำหน้าก่อน แล้วตัวเลขตามค่าจริง
+      </span>
+      <span class="card-tag">Array / Sorting</span>
+    </a>
+
+    <a class="card" href="pre-interview/question3.html">
+      <span class="card-number">Question 03</span>
+      <span class="card-title">Autocomplete</span>
+      <span class="card-desc">
+        สร้าง function autocomplete ค้นหาคำที่ตรงกัน (ignore case)
+        เรียงตาม ขึ้นต้น &gt; กลางคำ &gt; ท้ายคำ จำกัด maxResult
+      </span>
+      <span class="card-tag">Search / Filter / Sort</span>
+    </a>
+
+    <a class="card" href="pre-interview/question4.html">
+      <span class="card-number">Question 04</span>
+      <span class="card-title">Modern Roman Numerals</span>
+      <span class="card-desc">
+        สร้าง 2 function แปลงเลขจำนวนเต็ม &harr; เลขโรมัน
+        รองรับรูปแบบลบ เช่น IV = 4, CM = 900
+      </span>
+      <span class="card-tag">Number / String / Mapping</span>
+    </a>
+
+    <a class="card" href="pre-interview/question5.html">
+      <span class="card-number">Question 05</span>
+      <span class="card-title">Sort Digits Descending</span>
+      <span class="card-desc">
+        สร้าง function รับค่า Positive Int แล้วเรียงตัวเลขแต่ละหลัก
+        จากมากไปน้อย แล้ว return กลับเป็น Int
+      </span>
+      <span class="card-tag">Number / Sort</span>
+    </a>
+  </div>
+</body>
+</html>

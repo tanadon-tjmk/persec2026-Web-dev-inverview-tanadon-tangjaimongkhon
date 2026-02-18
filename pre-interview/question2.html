@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Q2 - Natural Sort</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      min-height: 100vh;
+      color: #e0e0e0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .back-link {
+      align-self: flex-start;
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto 24px;
+      color: #a78bfa;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: #c4b5fd; }
+
+    .container { max-width: 800px; width: 100%; }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #a78bfa, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .description {
+      color: #94a3b8;
+      line-height: 1.7;
+      margin-bottom: 32px;
+      font-size: 1rem;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 14px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: #f1f5f9;
+      font-size: 1.1rem;
+      font-family: 'Consolas', 'Courier New', monospace;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus { border-color: #a78bfa; }
+    input[type="text"]::placeholder { color: #64748b; }
+
+    button {
+      padding: 14px 28px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #a78bfa, #7c3aed);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    button:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+    button:active:not(:disabled) { transform: translateY(0); }
+    button:disabled {
+      background: rgba(255,255,255,0.08);
+      color: #64748b;
+      cursor: not-allowed;
+    }
+
+    .hint {
+      color: #64748b;
+      font-size: 0.85rem;
+      margin-top: -16px;
+      margin-bottom: 24px;
+    }
+
+    .result {
+      padding: 20px 24px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 40px;
+      display: none;
+      font-family: 'Consolas', 'Courier New', monospace;
+      word-break: break-all;
+    }
+    .result.visible {
+      display: block;
+      background: rgba(96, 165, 250, 0.12);
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      color: #93c5fd;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      color: #cbd5e1;
+      margin-bottom: 16px;
+    }
+
+    .examples-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+    .examples-table th,
+    .examples-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .examples-table th {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .examples-table td {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.95rem;
+    }
+    .examples-table .arrow { color: #a78bfa; }
+
+    .code-section h2 { margin-bottom: 12px; }
+
+    pre {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 24px;
+      overflow-x: auto;
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: #e2e8f0;
+    }
+
+    .kw { color: #c084fc; }
+    .fn { color: #60a5fa; }
+    .str { color: #34d399; }
+    .cm { color: #64748b; }
+    .type { color: #fbbf24; }
+  </style>
+</head>
+<body>
+  <a class="back-link" href="../index.html">&larr; Back to Questions</a>
+
+  <div class="container">
+    <h1>Q2: Natural Sort</h1>
+    <p class="description">
+      สร้าง function รับค่า array ของ string แล้ว return ผลลัพธ์ที่เรียงแล้ว
+      โดยเรียงตัวอักษรนำหน้าก่อน แล้วเรียงตัวเลขตามค่าจริง (Natural Sort)
+    </p>
+
+    <div class="input-group">
+      <input type="text" id="sortInput" placeholder='เช่น TH19, SG20, TH2' />
+      <button id="sortBtn" disabled>Sort</button>
+    </div>
+    <p class="hint">คั่นแต่ละค่าด้วยเครื่องหมาย , (comma)</p>
+
+    <div class="result" id="result"></div>
+
+    <h2>Example Results</h2>
+    <table class="examples-table">
+      <thead>
+        <tr><th>Input</th><th></th><th>Output</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>["TH19", "SG20", "TH2"]</td>
+          <td class="arrow">=></td>
+          <td>["SG20", "TH2", "TH19"]</td>
+        </tr>
+        <tr>
+          <td>["TH10", "TH3Netflix", "TH1", "TH7"]</td>
+          <td class="arrow">=></td>
+          <td>["TH1", "TH3Netflix", "TH7", "TH10"]</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="code-section">
+      <h2>Source Code</h2>
+      <pre><code><span class="cm">/**
+ * รับ array ของ string แล้ว return ผลลัพธ์ที่เรียงแล้ว (Natural Sort)
+ *
+ * วิธีการเรียง:
+ * 1. แยก string แต่ละตัวออกเป็น segments สลับกันระหว่าง ตัวอักษร กับ ตัวเลข
+ *    เช่น "TH19" → ["TH", "19"], "SG20" → ["SG", "20"]
+ * 2. เปรียบเทียบทีละ segment:
+ *    - ถ้าทั้งคู่เป็นตัวเลข → เทียบค่าตัวเลข (2 &lt; 19)
+ *    - ถ้าไม่ใช่ → เทียบตัวอักษร ("SG" &lt; "TH")
+ */</span>
+<span class="kw">export function</span> <span class="fn">process_pre_interview_Q2</span>(items: <span class="type">string</span>[]): <span class="type">string</span>[] {
+  <span class="kw">return</span> [...items].<span class="fn">sort</span>((a, b) => {
+    <span class="cm">// แยก string เป็น segments ของตัวอักษร และ ตัวเลข</span>
+    <span class="kw">const</span> segmentsA = a.<span class="fn">match</span>(<span class="str">/[a-zA-Z]+|\d+/g</span>) ?? [];
+    <span class="kw">const</span> segmentsB = b.<span class="fn">match</span>(<span class="str">/[a-zA-Z]+|\d+/g</span>) ?? [];
+
+    <span class="kw">const</span> maxLength = Math.<span class="fn">max</span>(segmentsA.length, segmentsB.length);
+
+    <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; maxLength; i++) {
+      <span class="kw">const</span> segA = segmentsA[i] ?? <span class="str">""</span>;
+      <span class="kw">const</span> segB = segmentsB[i] ?? <span class="str">""</span>;
+
+      <span class="kw">const</span> numA = <span class="fn">Number</span>(segA);
+      <span class="kw">const</span> numB = <span class="fn">Number</span>(segB);
+
+      <span class="cm">// ทั้งคู่เป็นตัวเลข → เทียบค่าตัวเลข</span>
+      <span class="kw">if</span> (!<span class="fn">isNaN</span>(numA) && !<span class="fn">isNaN</span>(numB)) {
+        <span class="kw">if</span> (numA !== numB) <span class="kw">return</span> numA - numB;
+        <span class="kw">continue</span>;
+      }
+
+      <span class="cm">// อย่างน้อยหนึ่งตัวเป็นตัวอักษร → เทียบตัวอักษร</span>
+      <span class="kw">if</span> (segA !== segB) <span class="kw">return</span> segA.<span class="fn">localeCompare</span>(segB);
+    }
+
+    <span class="kw">return</span> 0;
+  });
+}</code></pre>
+    </div>
+
+    <div class="code-section" style="margin-top: 40px;">
+      <h2>Test Code</h2>
+      <pre><code><span class="kw">import</span> { describe, it, expect } <span class="kw">from</span> <span class="str">"vitest"</span>;
+<span class="kw">import</span> { process_pre_interview_Q2 } <span class="kw">from</span> <span class="str">"./question2.js"</span>;
+
+<span class="fn">describe</span>(<span class="str">"process_pre_interview_Q2"</span>, () => {
+  <span class="fn">it</span>(<span class="str">'["TH19", "SG20", "TH2"] => ["SG20", "TH2", "TH19"] — ตัวอย่างจากโจทย์ข้อ 1'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q2</span>([<span class="str">"TH19"</span>, <span class="str">"SG20"</span>, <span class="str">"TH2"</span>]))
+      .<span class="fn">toEqual</span>([<span class="str">"SG20"</span>, <span class="str">"TH2"</span>, <span class="str">"TH19"</span>]);
+  });
+
+  <span class="fn">it</span>(<span class="str">'["TH10", "TH3Netflix", "TH1", "TH7"] => [...] — ตัวอย่างจากโจทย์ข้อ 2'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q2</span>([<span class="str">"TH10"</span>, <span class="str">"TH3Netflix"</span>, <span class="str">"TH1"</span>, <span class="str">"TH7"</span>]))
+      .<span class="fn">toEqual</span>([<span class="str">"TH1"</span>, <span class="str">"TH3Netflix"</span>, <span class="str">"TH7"</span>, <span class="str">"TH10"</span>]);
+  });
+
+  <span class="fn">it</span>(<span class="str">"เรียงตัวอักษรนำหน้าก่อน แล้วค่อยเรียงตัวเลข"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q2</span>([<span class="str">"B2"</span>, <span class="str">"A10"</span>, <span class="str">"A2"</span>, <span class="str">"B1"</span>]))
+      .<span class="fn">toEqual</span>([<span class="str">"A2"</span>, <span class="str">"A10"</span>, <span class="str">"B1"</span>, <span class="str">"B2"</span>]);
+  });
+
+  <span class="fn">it</span>(<span class="str">"รับ array ที่มีแค่ 1 ตัว — คืนค่าเดิม"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q2</span>([<span class="str">"TH1"</span>])).<span class="fn">toEqual</span>([<span class="str">"TH1"</span>]);
+  });
+
+  <span class="fn">it</span>(<span class="str">"รับ array ว่าง — คืน array ว่าง"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q2</span>([])).<span class="fn">toEqual</span>([]);
+  });
+
+  <span class="fn">it</span>(<span class="str">"prefix เหมือนกัน เรียงตามตัวเลขจากน้อยไปมาก"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q2</span>([<span class="str">"EP100"</span>, <span class="str">"EP3"</span>, <span class="str">"EP20"</span>, <span class="str">"EP1"</span>]))
+      .<span class="fn">toEqual</span>([<span class="str">"EP1"</span>, <span class="str">"EP3"</span>, <span class="str">"EP20"</span>, <span class="str">"EP100"</span>]);
+  });
+
+  <span class="fn">it</span>(<span class="str">"มี suffix ต่อท้ายตัวเลข — ตัวที่ไม่มี suffix มาก่อน"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q2</span>([<span class="str">"TH5Pro"</span>, <span class="str">"TH5"</span>, <span class="str">"TH2Max"</span>, <span class="str">"TH2"</span>]))
+      .<span class="fn">toEqual</span>([<span class="str">"TH2"</span>, <span class="str">"TH2Max"</span>, <span class="str">"TH5"</span>, <span class="str">"TH5Pro"</span>]);
+  });
+
+  <span class="fn">it</span>(<span class="str">"ไม่แก้ไข array เดิม — คืน array ใหม่เสมอ"</span>, () => {
+    <span class="kw">const</span> original = [<span class="str">"TH19"</span>, <span class="str">"SG20"</span>, <span class="str">"TH2"</span>];
+    <span class="fn">process_pre_interview_Q2</span>(original);
+    <span class="fn">expect</span>(original).<span class="fn">toEqual</span>([<span class="str">"TH19"</span>, <span class="str">"SG20"</span>, <span class="str">"TH2"</span>]);
+  });
+
+  <span class="fn">it</span>(<span class="str">"string ที่เป็นตัวอักษรล้วน — เรียงตามตัวอักษร"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q2</span>([<span class="str">"Banana"</span>, <span class="str">"Apple"</span>, <span class="str">"Cherry"</span>]))
+      .<span class="fn">toEqual</span>([<span class="str">"Apple"</span>, <span class="str">"Banana"</span>, <span class="str">"Cherry"</span>]);
+  });
+
+  <span class="fn">it</span>(<span class="str">"string ที่เป็นตัวเลขล้วน — เรียงตามค่าตัวเลข ไม่ใช่ตัวอักษร"</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">process_pre_interview_Q2</span>([<span class="str">"100"</span>, <span class="str">"3"</span>, <span class="str">"20"</span>, <span class="str">"1"</span>]))
+      .<span class="fn">toEqual</span>([<span class="str">"1"</span>, <span class="str">"3"</span>, <span class="str">"20"</span>, <span class="str">"100"</span>]);
+  });
+});</code></pre>
+    </div>
+  </div>
+
+  <script>
+    // =============================================
+    // ฟังก์ชันเรียงลำดับแบบ Natural Sort (เหมือนกับ question2.ts)
+    // =============================================
+    function process_pre_interview_Q2(items) {
+      return [...items].sort((a, b) => {
+        // แยก string เป็น segments ของตัวอักษร และ ตัวเลข
+        const segmentsA = a.match(/[a-zA-Z]+|\d+/g) || [];
+        const segmentsB = b.match(/[a-zA-Z]+|\d+/g) || [];
+
+        const maxLength = Math.max(segmentsA.length, segmentsB.length);
+
+        for (let i = 0; i < maxLength; i++) {
+          const segA = segmentsA[i] || "";
+          const segB = segmentsB[i] || "";
+
+          const numA = Number(segA);
+          const numB = Number(segB);
+
+          // ทั้งคู่เป็นตัวเลข → เทียบค่าตัวเลข
+          if (!isNaN(numA) && !isNaN(numB)) {
+            if (numA !== numB) return numA - numB;
+            continue;
+          }
+
+          // อย่างน้อยหนึ่งตัวเป็นตัวอักษร → เทียบตัวอักษร
+          if (segA !== segB) return segA.localeCompare(segB);
+        }
+
+        return 0;
+      });
+    }
+
+    // =============================================
+    // DOM Elements
+    // =============================================
+    const inputEl = document.getElementById("sortInput");   // ช่องกรอก input
+    const sortBtn = document.getElementById("sortBtn");     // ปุ่ม Sort
+    const resultEl = document.getElementById("result");     // กล่องแสดงผลลัพธ์
+
+    // =============================================
+    // validate: เรียกทุกครั้งที่ผู้ใช้พิมพ์
+    // - มีข้อความอย่างน้อย 1 ตัว → ปุ่ม Sort enabled
+    // - ว่าง → ปุ่ม Sort disabled
+    // =============================================
+    function validate() {
+      sortBtn.disabled = inputEl.value.trim().length === 0;
+    }
+
+    // =============================================
+    // sort: เรียกเมื่อกดปุ่ม Sort หรือ Enter
+    // - แยก input ด้วย comma → เป็น array
+    // - นำไปเข้าฟังก์ชัน process_pre_interview_Q2
+    // - แสดงผลลัพธ์
+    // =============================================
+    function sort() {
+      const raw = inputEl.value.trim();
+      if (raw.length === 0) return;
+
+      // ลบ [ ] " ' ออกก่อน แล้วแยกด้วย comma + trim แต่ละตัว
+      const cleaned = raw.replace(/[\[\]"']/g, "");
+      const items = cleaned.split(",").map(s => s.trim()).filter(s => s.length > 0);
+      const sorted = process_pre_interview_Q2(items);
+
+      resultEl.className = "result visible";
+      resultEl.textContent = `[${sorted.map(s => `"${s}"`).join(", ")}]`;
+    }
+
+    // =============================================
+    // Event Listeners
+    // =============================================
+    inputEl.addEventListener("input", validate);          // พิมพ์ → validate ทุกครั้ง
+    sortBtn.addEventListener("click", sort);              // คลิกปุ่ม → sort
+    inputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !sortBtn.disabled) sort(); // กด Enter → sort (ถ้าปุ่มไม่ disabled)
+    });
+  </script>
+</body>
+</html>
