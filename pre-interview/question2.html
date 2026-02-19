@@ -159,6 +159,57 @@
     .str { color: #34d399; }
     .cm { color: #64748b; }
     .type { color: #fbbf24; }
+
+    .test-results {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-radius: 12px;
+      padding: 20px 24px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+    .test-results-header {
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+    .test-run-label {
+      background: #3b82f6;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      margin-right: 8px;
+    }
+    .test-results-file {
+      color: #e2e8f0;
+      margin-bottom: 12px;
+    }
+    .test-pass-icon {
+      color: #4ade80;
+      font-weight: 700;
+      margin-right: 6px;
+    }
+    .test-count {
+      color: #94a3b8;
+    }
+    .test-time {
+      color: #64748b;
+    }
+    .test-results-summary {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 12px;
+    }
+    .test-label-pass {
+      color: #94a3b8;
+      display: inline-block;
+      width: 90px;
+    }
+    .test-pass-text {
+      color: #4ade80;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
@@ -238,6 +289,22 @@
     <span class="kw">return</span> 0;
   });
 }</code></pre>
+    </div>
+
+    <div class="code-section" style="margin-top: 40px;">
+      <h2>Test Results</h2>
+      <div class="test-results">
+        <div class="test-results-header">
+          <span class="test-run-label">RUN</span> v4.0.18
+        </div>
+        <div class="test-results-file">
+          <span class="test-pass-icon">&#10003;</span> pre-interview/src/question2.test.ts <span class="test-count">(10 tests)</span> <span class="test-time">22ms</span>
+        </div>
+        <div class="test-results-summary">
+          <div><span class="test-label-pass">Test Files</span> <span class="test-pass-text">1 passed</span> (1)</div>
+          <div><span class="test-label-pass">Tests</span> <span class="test-pass-text">10 passed</span> (10)</div>
+        </div>
+      </div>
     </div>
 
     <div class="code-section" style="margin-top: 40px;">

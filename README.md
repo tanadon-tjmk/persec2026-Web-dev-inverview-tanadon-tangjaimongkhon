@@ -75,6 +75,32 @@
 - **แนวคิด:** แปลงเป็น string → แยกแต่ละหลัก → sort จากมากไปน้อย → รวมกลับเป็นตัวเลข
 - **ตัวอย่าง:** `3008` → `8300`, `1989` → `9981`
 
+## วิธีใช้งาน
+
+### ติดตั้ง Dependencies
+
+```bash
+npm install
+```
+
+### รัน Unit Test
+
+```bash
+npm test
+```
+
+### รัน Test แบบ Watch Mode (รันซ้ำอัตโนมัติเมื่อแก้ไขโค้ด)
+
+```bash
+npm run test:watch
+```
+
+### Build TypeScript
+
+```bash
+npm run build
+```
+
 ### เปิดหน้าเว็บ Interactive Demo
 
 เปิดไฟล์ `index.html` ในเบราว์เซอร์ แล้วเลือกข้อที่ต้องการดู
